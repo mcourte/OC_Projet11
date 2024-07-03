@@ -68,3 +68,12 @@ def test_invalid_email(client):
     # Vérification du code de statut HTTP
     assert response.status_code == 401
     # Test OK
+
+def test_logout(client):
+    """Test pour vérifier que si l'utilisateur se déconnecte il retourne bien sur la page de connexion"""
+    response = client.get('/logout')
+    # Vérification que la réponse est bien une redirection
+    assert response.status_code == 302
+
+    # Vérification que la redirection va bien sur la page demandée
+    assert response.headers['Location'] == 'http://localhost/'
