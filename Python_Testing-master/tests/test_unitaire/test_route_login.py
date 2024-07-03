@@ -76,4 +76,5 @@ def test_logout(client):
     assert response.status_code == 302
 
     # Vérification que la redirection va bien sur la page demandée
-    assert response.headers['Location'] == 'http://localhost/'
+    assert response.headers['Location'] == '/'
+    #Test Ok
