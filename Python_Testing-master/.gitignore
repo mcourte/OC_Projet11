@@ -5,3 +5,5 @@ lib
 env/
 .envrc
 __pycache__
+/env
+/.vscode
