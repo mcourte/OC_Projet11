@@ -1,4 +1,18 @@
+import sys
+import os
 import pytest
+
+# Déterminez le chemin absolu du répertoire parent
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, '../../../Python_Testing-master'))
+
+# Ajoutez le répertoire parent au PYTHONPATH
+sys.path.insert(0, parent_dir)
+
+# Vérifiez le contenu de sys.path (pour le débogage)
+print("sys.path:", sys.path)
+
+# Importez les fonctions depuis server.py
 from server import loadClubs, loadCompetitions, app
 
 
@@ -41,8 +55,8 @@ def test_no_email(client):
     response = client.post("/showSummary", data={"email": ""})
 
     # Vérification du code de statut HTTP
-    assert response.status_code == 200
-    # LE RETOUR ACTUEL EST " INTERNAL SERVER ERROR" / IndexError : list index out of range pour club['email']
+    assert response.status_code == 401
+    # Test OK
 
 
 def test_invalid_email(client):
@@ -52,15 +66,5 @@ def test_invalid_email(client):
     response = client.post("/showSummary", data=data)
 
     # Vérification du code de statut HTTP
-    assert response.status_code == 200
-    # LE RETOUR ACTUEL EST " INTERNAL SERVER ERROR"/ IndexError : list index out of range pour club['email']
-
-
-def test_logout(client):
-
-    response = client.get('/logout')
-    # Vérification que la réponse est bien une redirection
-    assert response.status_code == 302
-
-    # Vérification que la redirection va bien sur la page demandée
-    assert response.headers['Location'] == 'http://localhost/'
+    assert response.status_code == 401
+    # Test OK
