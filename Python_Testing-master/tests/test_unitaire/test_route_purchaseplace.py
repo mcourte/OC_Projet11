@@ -77,7 +77,7 @@ def test_purchasePlaces_not_enough_points(client):
     """Test pour vérifier si un club peut booker plus de places qu'il a de point"""
     data = {
         "competition": "Spring Festival",
-        "club": "Simply Lift",
+        "club": "Iron Temple",
         "places": "12",
     }
     response = client.post("/purchasePlaces", data=data)
@@ -114,8 +114,7 @@ def test_purchasePlaces_max_places_exceeded(client):
 
     # Vérification du code de statut HTTP
     assert response.status_code == 403
-
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
+    # Test Ok
 
 
 def test_purchasePlaces_no_places_specified(client):

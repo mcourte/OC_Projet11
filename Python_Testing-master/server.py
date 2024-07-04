@@ -75,7 +75,10 @@ def purchasePlaces():
     club = [c for c in clubs if c['name'] == request.form['club']][0]
 
     placesRequired = int(request.form["places"])
-
+    if placesRequired > int(club['points']):
+        flash("Erreur : Vous ne pouvez pas vous inscrire plus de 12 athlètes à une compétition.")
+        return (render_template("booking.html", club=club, competition=competition),403)
+                             
     if placesRequired > 12:
         flash("Erreur : Vous ne pouvez pas vous inscrire plus de 12 athlètes à une compétition.")
         return (render_template("booking.html", club=club, competition=competition),403)
@@ -87,7 +90,6 @@ def purchasePlaces():
 
     return render_template("welcome.html", club=club, competitions=competitions)
     # Rajouter des conditions pour :
-    # empêcher de réserver plus de 12 places
     # empêcher de réserver plus de places qu'on a de points
     # empêcher de réserver un nombre de place négative
     # message d'erreur si nombre de place choisie = 0
