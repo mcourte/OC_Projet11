@@ -76,7 +76,7 @@ def purchasePlaces():
 
     placesRequired = int(request.form["places"])
     if placesRequired > int(club['points']):
-        flash("Erreur : Vous ne pouvez pas vous inscrire plus de 12 athlètes à une compétition.")
+        flash("Erreur : Vous n'avez pas assez de points disponible.")
         return (render_template("booking.html", club=club, competition=competition),403)
                              
     if placesRequired > 12:
@@ -84,7 +84,7 @@ def purchasePlaces():
         return (render_template("booking.html", club=club, competition=competition),403)
     
     competition["numberOfPlaces"] = (int(competition["numberOfPlaces"]) - placesRequired)
-    club["points"] = int(club["points"]) - placesRequired
+
     
     flash("La réservation a été effectuée!")
 
