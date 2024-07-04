@@ -90,10 +90,6 @@ def purchasePlaces():
 
     return render_template("welcome.html", club=club, competitions=competitions)
     # Rajouter des conditions pour :
-    # empêcher de réserver plus de places qu'on a de points
-    # empêcher de réserver un nombre de place négative
-    # message d'erreur si nombre de place choisie = 0
-    # empêcher de réserver plus de places qu'il y a de places disponible
     # !!! : si un club réserve une fois 9 places, il ne peut pas en réserver + de 3 derrière! Faire un historique ?
     # Rajouter la méthodo pour dimininuer le nombre de points du club
 
