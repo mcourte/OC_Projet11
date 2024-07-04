@@ -82,7 +82,7 @@ def purchasePlaces():
         flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athlètes nul.")
         return (render_template("booking.html", club=club, competition=competition),400)
     if placesRequired > int(club['points']):
-        flash("Erreur : Vous ne pouvez pas vous inscrire plus de 12 athlètes à une compétition.")
+        flash("Erreur : Vous n'avez pas assez de points disponible.")
         return (render_template("booking.html", club=club, competition=competition),403)
                              
     if placesRequired > 12:
@@ -96,10 +96,6 @@ def purchasePlaces():
 
     return render_template("welcome.html", club=club, competitions=competitions)
     # Rajouter des conditions pour :
-    # empêcher de réserver plus de places qu'on a de points
-    # empêcher de réserver un nombre de place négative
-    # message d'erreur si nombre de place choisie = 0
-    # empêcher de réserver plus de places qu'il y a de places disponible
     # !!! : si un club réserve une fois 9 places, il ne peut pas en réserver + de 3 derrière! Faire un historique ?
     # Rajouter la méthodo pour dimininuer le nombre de points du club
 
