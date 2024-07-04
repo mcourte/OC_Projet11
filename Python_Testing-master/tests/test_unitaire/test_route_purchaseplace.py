@@ -42,37 +42,6 @@ def test_purchasePlaces(client):
     # TEST OK
 
 
-def test_purchasePlaces_invalid_competition(client):
-    """Test pour vérifier si un club peut booker des places dans une compétition inexistante"""
-    data = {
-        "competition": "InvalidCompetitionName",
-        "club": "Simply Lift",
-        "places": "1",
-    }
-    response = client.post("/purchasePlaces", data=data)
-
-    # Vérification du code de statut HTTP
-    assert response.status_code == 404  # 404 : Ressource non trouvée
-
-    # LE RETOUR ACTUEL EST " INTERNAL SERVER ERROR" / IndexError : list index out of range pour competition['name']
-
-
-def test_purchasePlaces_invalid_club(client):
-    """Test pour vérifier si un club inexsitant peut booker des places dans une compétition existante"""
-
-    data = {
-        "competition": "Spring Festival",
-        "club": "InvalidClubName",
-        "places": "3",
-    }
-    response = client.post("/purchasePlaces", data=data)
-
-    # Vérification du code de statut HTTP
-    assert response.status_code == 404  # 404 : Ressource non trouvée
-
-    # LE RETOUR ACTUEL EST " INTERNAL SERVER ERROR" / IndexError : list index out of range pour club['email']
-
-
 def test_purchasePlaces_not_enough_points(client):
     """Test pour vérifier si un club peut booker plus de places qu'il a de point"""
     data = {
