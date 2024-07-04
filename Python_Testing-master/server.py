@@ -47,29 +47,26 @@ def show_summary():
 
 @app.route('/book/<competition>/<club>')
 def book(competition, club):
-    foundClub = [c for c in clubs if c['name'] == club][0]
-    foundCompetition = [c for c in competitions if c['name'] == competition][0]
-    competition_date = datetime.strptime(foundCompetition['date'], "%Y-%m-%d %H:%M:%S")
-    if competition_date < datetime.now():
-        flash(
-            "Erreur : Vous ne pouvez pas réserver de place pour une compétition passée",
-            "error",
-            )
+    try:
+        foundClub = [c for c in clubs if c["name"] == club][0]
+        foundCompetition = [c for c in competitions if c["name"] == competition][0]
+    except IndexError:
+        flash("Un problème est servenu, merci de réessayer")
         return (
-                render_template(
-                    "welcome.html",
-                    club=foundClub,
-                    competitions=competitions,
-                    clubs=clubs,
-                ),
-                400,
-            )
+            render_template("welcome.html", club=club, competitions=competitions),
+            400)
     if foundClub and foundCompetition:
-        return render_template('booking.html', club=foundClub, competition=foundCompetition)
+        competition_date = datetime.strptime(foundCompetition["date"], "%Y-%m-%d %H:%M:%S")
+        if competition_date < datetime.now():
+            flash("Erreur : Vous ne pouvez pas vous inscrire à une compétition déjà passée")
+            return (render_template("welcome.html", club=foundClub, competitions=competitions),
+                    200)
+        return render_template("booking.html", club=foundClub, competition=foundCompetition)
     else:
-        flash("Something went wrong-please try again")
-        return render_template('welcome.html', club=club, competitions=competitions)
-    # Rajouter une condition pour vérifié la date de la compétition. Si date passée : return error 400
+        flash("Un problème est servenu, merci de réessayer")
+        return (
+            render_template("welcome.html", club=foundClub, competitions=competitions, clubs=clubs),
+            400)
 
 
 @app.route('/purchasePlaces', methods=['POST'])
