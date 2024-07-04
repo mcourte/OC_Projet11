@@ -58,7 +58,7 @@ def book(competition, club):
     if foundClub and foundCompetition:
         competition_date = datetime.strptime(foundCompetition["date"], "%Y-%m-%d %H:%M:%S")
         if competition_date < datetime.now():
-            flash("Erreur : Vous ne pouvez pas vous inscrire à une compétition déjà passée")
+            flash("Erreur:Vous ne pouvez pas vous inscrire a une competition deja passee")
             return (render_template("welcome.html", club=foundClub, competitions=competitions),
                     200)
         return render_template("booking.html", club=foundClub, competition=foundCompetition)
@@ -73,10 +73,19 @@ def book(competition, club):
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
-    placesRequired = int(request.form['places'])
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-    flash('Great-booking complete!')
-    return render_template('welcome.html', club=club, competitions=competitions)
+
+    placesRequired = int(request.form["places"])
+
+    if placesRequired > 12:
+        flash("Erreur : Vous ne pouvez pas vous inscrire plus de 12 athlètes à une compétition.")
+        return (render_template("booking.html", club=club, competition=competition),403)
+    
+    competition["numberOfPlaces"] = (int(competition["numberOfPlaces"]) - placesRequired)
+    club["points"] = int(club["points"]) - placesRequired
+    
+    flash("La réservation a été effectuée!")
+
+    return render_template("welcome.html", club=club, competitions=competitions)
     # Rajouter des conditions pour :
     # empêcher de réserver plus de 12 places
     # empêcher de réserver plus de places qu'on a de points

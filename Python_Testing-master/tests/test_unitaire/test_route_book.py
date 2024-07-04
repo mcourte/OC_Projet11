@@ -31,8 +31,8 @@ def test_book_competition_past(client):
     response = client.get("/book/Spring Festival/Iron Temple")
 
     assert response.status_code == 200
-    assert b"Error: can not purchase a place for past competitions" in response.data
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
+    assert b"Erreur:Vous ne pouvez pas vous inscrire a une competition deja passee" in response.data
+    #Test Ok
 
 
 def test_book_competition_futur(client):
