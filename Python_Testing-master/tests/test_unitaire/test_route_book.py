@@ -32,7 +32,7 @@ def test_book_competition_past(client):
 
     assert response.status_code == 200
     assert b"Erreur:Vous ne pouvez pas vous inscrire a une competition deja passee" in response.data
-    # Test OK
+    #Test Ok
 
 
 def test_book_competition_futur(client):
