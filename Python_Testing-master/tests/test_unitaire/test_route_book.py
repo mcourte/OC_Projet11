@@ -30,13 +30,14 @@ def test_book_competition_past(client):
     """Test pour vérifier si un club peut booker une compétition passée"""
     response = client.get("/book/Spring Festival/Iron Temple")
 
-    assert response.status_code == 400
+    assert response.status_code == 200
+    assert b"Error: can not purchase a place for past competitions" in response.data
     # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
 
 
 def test_book_competition_futur(client):
     """Test pour vérifier si un club peut booker une compétition future"""
-    response = client.get("/book/Go JO/Iron Temple")
+    response = client.get("/book/JO/Iron Temple")
 
     assert response.status_code == 200
     # Test OK
