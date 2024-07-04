@@ -58,7 +58,7 @@ def book(competition, club):
     if foundClub and foundCompetition:
         competition_date = datetime.strptime(foundCompetition["date"], "%Y-%m-%d %H:%M:%S")
         if competition_date < datetime.now():
-            flash("Erreur : Vous ne pouvez pas vous inscrire à une compétition déjà passée")
+            flash("Erreur:Vous ne pouvez pas vous inscrire a une competition deja passee")
             return (render_template("welcome.html", club=foundClub, competitions=competitions),
                     200)
         return render_template("booking.html", club=foundClub, competition=foundCompetition)
