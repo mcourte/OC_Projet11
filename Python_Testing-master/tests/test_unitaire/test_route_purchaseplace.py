@@ -54,7 +54,7 @@ def test_purchasePlaces_not_enough_points(client):
     # Vérification du code de statut HTTP
     assert response.status_code == 403  # 403 : Accès refusé
 
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
+    # Test OK
 
 
 def test_purchasePlaces_negative_places(client):
@@ -69,7 +69,7 @@ def test_purchasePlaces_negative_places(client):
     # Vérification du code de statut HTTP
     assert response.status_code == 403  # 403 : Accès refusé
 
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
+    # Test OK
 
 
 def test_purchasePlaces_max_places_exceeded(client):
@@ -86,21 +86,6 @@ def test_purchasePlaces_max_places_exceeded(client):
     # Test Ok
 
 
-def test_purchasePlaces_no_places_specified(client):
-    """Test pour vérifier si un club peut booker un nombre de place =0"""
-    data = {
-        "competition": "Spring Festival",
-        "club": "Simply Lift",
-        "places": "0",
-    }
-    response_no_places = client.post("/purchasePlaces", data=data)
-
-    # Vérification du code de statut HTTP
-    assert response_no_places.status_code == 400
-
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
-
-
 def test_purchasePlaces_too_many_places(client):
     """Test pour vérifier si un club peut booker un nombre de place >12"""
     data_too_many_places = {
@@ -113,4 +98,14 @@ def test_purchasePlaces_too_many_places(client):
     )
     assert response_too_many_places.status_code == 403
 
-    # LE RETOUR ACTUEL EST " STATUS_CODE == 200"
+    # Test OK
+
+def test_purchasePlaces_no_places_specified(client):
+    """Test pour vérifier si un club peut booker un nombre de place =0"""
+    data = {
+        "competition": "Spring Festival",
+        "club": "Simply Lift",
+        "places": "0",
+    }
+    response_no_places = client.post("/purchasePlaces", data=data)
+    assert response_no_places.status_code == 403

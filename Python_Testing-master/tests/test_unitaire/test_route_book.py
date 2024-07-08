@@ -2,6 +2,7 @@ import sys
 import os
 import pytest
 
+
 # Déterminez le chemin absolu du répertoire parent
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, '../../../Python_Testing-master'))
@@ -41,3 +42,4 @@ def test_book_competition_futur(client):
 
     assert response.status_code == 200
     # Test OK
+
