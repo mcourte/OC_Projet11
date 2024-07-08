@@ -25,7 +25,7 @@ def test_purchasePlaces(client):
     """Test pour vérifier si un club peut booker des places dans une compétition existante"""
     data = {
         "competition": "Fall Classic",
-        "club": "She Lifts",
+        "club": "Simply Lift",
         "places": "3",
     }
     response = client.post("/purchasePlaces", data=data)
@@ -70,7 +70,7 @@ def test_purchasePlaces_max_places_exceeded(client):
     """Test pour vérifier si un club peut booker un nombre de place > nombre de points disponible"""
     data = {
         "competition": "Spring Festival",
-        "club": "Simply Lift",
+        "club": "Iron Temple",
         "places": "11",
     }
     response = client.post("/purchasePlaces", data=data)

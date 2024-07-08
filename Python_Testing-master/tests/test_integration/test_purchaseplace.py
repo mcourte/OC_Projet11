@@ -78,7 +78,7 @@ class FunctionalTest(TestCase):
     def test_purchasePlaces_not_enough_points(self):
         data = {
             "competition": "Spring Festival",
-            "club": "Simply Lift",
+            "club": "She Lifts",
             "places": "12",
         }
         response = self.client.post("/purchasePlaces", data=data)
@@ -96,7 +96,7 @@ class FunctionalTest(TestCase):
     def test_purchasePlaces_max_places_exceeded(self):
         data = {
             "competition": "Spring Festival",
-            "club": "Simply Lift",
+            "club": "Iron Temple",
             "places": "15",
         }
         response = self.client.post("/purchasePlaces", data=data)
