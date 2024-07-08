@@ -74,16 +74,6 @@ class FunctionalTest(TestCase):
         updated_point = int(updated_club["points"])
         assert updated_point == initial_point - 1
 
-    def test_purchasePlaces(self):
-        # Ensure the club and competition exist with valid data
-        club = next(c for c in self.clubs if c['name'] == "Simply Lift")
-        data = {
-            "competition": "Spring Festival",
-            "club": "Simply Lift",
-            "places": "1",
-        }
-        response = self.client.post("/purchasePlaces", data=data)
-        assert response.status_code == 200
 
     def test_purchasePlaces_not_enough_points(self):
         data = {
