@@ -71,35 +71,42 @@ def book(competition, club):
 
 @app.route('/purchasePlaces', methods=['POST'])
 def purchasePlaces():
-    competition = next(c for c in competitions if c['name'] == request.form['competition'])
-    club = next(c for c in clubs if c['name'] == request.form['club'])
+    competition = [c for c in competitions if c['name'] == request.form['competition']][0]
+    club = [c for c in clubs if c['name'] == request.form['club']][0]
 
     placesRequired = int(request.form["places"])
-    if placesRequired <= 0:
-        flash("Erreur: Vous ne pouvez pas inscrire un nombre d'athlètes nul ou négatif.")
+    if placesRequired < 0:
+        flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athletes negatif.")
+        return render_template("booking.html", club=club, competition=competition), 403
+    if placesRequired == 0:
+        flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athletes nul.")
         return render_template("booking.html", club=club, competition=competition), 403
     if placesRequired > int(club['points']):
-        flash("Erreur: Vous n'avez pas assez de points disponibles.")
+        flash("Erreur : Vous n'avez pas assez de points disponible.")
         return render_template("booking.html", club=club, competition=competition), 403
     if placesRequired > 12:
-        flash("Erreur: Vous ne pouvez pas inscrire plus de 12 athlètes à une compétition.")
+        flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athletes a une competition.")
         return render_template("booking.html", club=club, competition=competition), 403
 
-    competition["numberOfPlaces"] = str(int(competition["numberOfPlaces"]) - placesRequired)
-    club["points"] = str(int(club["points"]) - placesRequired)
+    competition["numberOfPlaces"] = int(competition["numberOfPlaces"]) - placesRequired
+    club["points"] = int(club["points"]) - placesRequired
 
-    with open("competitions.json", "w") as f:
-        json.dump({"competitions": competitions}, f, indent=4)
     with open("clubs.json", "w") as f:
         json.dump({"clubs": clubs}, f, indent=4)
 
     flash("La réservation a été effectuée!")
     return render_template("welcome.html", club=club, competitions=competitions)
+
     # Rajouter des conditions pour :
     # !!! : si un club réserve une fois 9 places, il ne peut pas en réserver + de 3 derrière! Faire un historique ?
 
-
-# Ajouter le tableau sur /showSummary qui indique le nombre de points restants pour chaque club
+@app.route("/pointsBoard")
+def pointsBoard():
+    """
+    Display the points board.
+    """
+    club_list = sorted(clubs, key=lambda club: int(club["points"]), reverse=True)
+    return render_template("pointsBoard.html", clubs=club_list)
 
 
 @app.route('/logout')
