@@ -78,8 +78,8 @@ class FunctionalTest(TestCase):
     def test_purchasePlaces_not_enough_points(self):
         data = {
             "competition": "Spring Festival",
-            "club": "Simply Lift",
-            "places": "12",
+            "club": "Iron Temple",
+            "places": "5",
         }
         response = self.client.post("/purchasePlaces", data=data)
         assert response.status_code == 403

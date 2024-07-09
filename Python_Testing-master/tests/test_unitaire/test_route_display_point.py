@@ -70,8 +70,8 @@ def test_purchasePlaces_max_places_exceeded(client):
     """Test pour vérifier si un club peut booker un nombre de place > nombre de points disponible"""
     data = {
         "competition": "Spring Festival",
-        "club": "Simply Lift",
-        "places": "11",
+        "club": "Iron Temple",
+        "places": "5",
     }
     response = client.post("/purchasePlaces", data=data)
 
