@@ -78,12 +78,16 @@ def purchasePlaces():
     if placesRequired < 0:
         flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athletes negatif.")
         return render_template("booking.html", club=club, competition=competition), 403
+
     if placesRequired == 0:
         flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athletes nul.")
         return render_template("booking.html", club=club, competition=competition), 403
+
     if placesRequired > int(club['points']):
         flash("Erreur : Vous n'avez pas assez de points disponible.")
+    
         return render_template("booking.html", club=club, competition=competition), 403
+
     if placesRequired > 12:
         flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athletes a une competition.")
         return render_template("booking.html", club=club, competition=competition), 403
