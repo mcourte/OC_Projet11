@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, session
 from datetime import datetime
 
 def loadClubs():
@@ -7,12 +7,10 @@ def loadClubs():
         listOfClubs = json.load(c)['clubs']
         return listOfClubs
 
-
 def loadCompetitions():
     with open('competitions.json') as comps:
         listOfCompetitions = json.load(comps)['competitions']
         return listOfCompetitions
-
 
 app = Flask(__name__)
 app.secret_key = 'something_special'
@@ -20,18 +18,14 @@ app.secret_key = 'something_special'
 competitions = loadCompetitions()
 clubs = loadClubs()
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/showSummary', methods=['POST'])
 def show_summary():
-
     try:
-        club = [
-            club for club in clubs if club["email"] == request.form["email"]][0]
+        club = [club for club in clubs if club["email"] == request.form["email"]][0]
         return render_template(
             "welcome.html",
             club=club,
@@ -41,9 +35,8 @@ def show_summary():
         if request.form["email"] == "":
             flash("Veuillez entrer une adresse e-mail.", "error")
         else:
-            flash("Il n'existe pas de compte rattaché à cet e-mail.", "error")
+            flash("Il n'existe pas de compte rattache a cet e-mail.", "error")
         return render_template("index.html"), 401
-
 
 @app.route('/book/<competition>/<club>')
 def book(competition, club):
@@ -51,30 +44,35 @@ def book(competition, club):
         foundClub = [c for c in clubs if c["name"] == club][0]
         foundCompetition = [c for c in competitions if c["name"] == competition][0]
     except IndexError:
-        flash("Un problème est servenu, merci de réessayer")
+        flash("Un probleme est survenu, merci de reessayer")
         return (
             render_template("welcome.html", club=club, competitions=competitions),
             400)
     if foundClub and foundCompetition:
         competition_date = datetime.strptime(foundCompetition["date"], "%Y-%m-%d %H:%M:%S")
         if competition_date < datetime.now():
-            flash("Erreur:Vous ne pouvez pas vous inscrire a une competition deja passee")
+            flash("Erreur : Vous ne pouvez pas vous inscrire a une competition deja passee")
             return (render_template("welcome.html", club=foundClub, competitions=competitions),
                     200)
         return render_template("booking.html", club=foundClub, competition=foundCompetition)
     else:
-        flash("Un problème est servenu, merci de réessayer")
+        flash("Un probleme est survenu, merci de reessayer")
         return (
             render_template("welcome.html", club=foundClub, competitions=competitions, clubs=clubs),
             400)
-
 
 @app.route('/purchasePlaces', methods=['POST'])
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
-
+    placesRemaining = int(competition["numberOfPlaces"])
     placesRequired = int(request.form["places"])
+
+    # Initialize or retrieve the total places reserved for this club
+    if 'totalPlacesReserved' not in session:
+        session['totalPlacesReserved'] = {}
+    totalPlacesReserved = session['totalPlacesReserved'].get(club['name'], 0)
+
     if placesRequired < 0:
         flash("Erreur : Vous ne pouvez pas vous inscrire un nombre d'athletes negatif.")
         return render_template("booking.html", club=club, competition=competition), 403
@@ -84,25 +82,36 @@ def purchasePlaces():
         return render_template("booking.html", club=club, competition=competition), 403
 
     if placesRequired > int(club['points']):
-        flash("Erreur : Vous n'avez pas assez de points disponible.")
-    
+        flash("Erreur : Vous n'avez pas assez de points disponibles.")
+        return render_template("booking.html", club=club, competition=competition), 403
+
+    if placesRequired > placesRemaining:
+        flash("Erreur : Il ne reste pas assez de places disponibles dans la competition.")
         return render_template("booking.html", club=club, competition=competition), 403
 
     if placesRequired > 12:
-        flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athletes a une competition.")
+        flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athlètes à une competition.")
         return render_template("booking.html", club=club, competition=competition), 403
 
-    competition["numberOfPlaces"] = int(competition["numberOfPlaces"]) - placesRequired
-    club["points"] = int(club["points"]) - placesRequired
+    if totalPlacesReserved + placesRequired > 12:
+        flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athletes à une compétition au total.")
+        return render_template("booking.html", club=club, competition=competition), 403
+    
+    # Deduct points and update remaining places
+    club['points'] = int(club['points']) - placesRequired
+    competition['numberOfPlaces'] = placesRemaining - placesRequired
 
+    # Update the total places reserved
+    session['totalPlacesReserved'][club['name']] = totalPlacesReserved + placesRequired
+
+    # Save changes to JSON files
     with open("clubs.json", "w") as f:
         json.dump({"clubs": clubs}, f, indent=4)
+    with open("competitions.json", "w") as f:
+        json.dump({"competitions": competitions}, f, indent=4)
 
-    flash("La réservation a été effectuée!")
-    return render_template("welcome.html", club=club, competitions=competitions)
-
-    # Rajouter des conditions pour :
-    # !!! : si un club réserve une fois 9 places, il ne peut pas en réserver + de 3 derrière! Faire un historique ?
+    flash("Great - booking complete!")
+    return render_template("welcome.html", club=club, competitions=competitions), 200
 
 @app.route("/pointsBoard")
 def pointsBoard():
@@ -112,7 +121,9 @@ def pointsBoard():
     club_list = sorted(clubs, key=lambda club: int(club["points"]), reverse=True)
     return render_template("pointsBoard.html", clubs=club_list)
 
-
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)

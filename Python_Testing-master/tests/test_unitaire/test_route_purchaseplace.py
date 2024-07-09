@@ -2,6 +2,7 @@ import sys
 import os
 import pytest
 
+
 # Déterminez le chemin absolu du répertoire parent
 current_dir = os.path.dirname(__file__)
 parent_dir = os.path.abspath(os.path.join(current_dir, '../../../Python_Testing-master'))
@@ -109,3 +110,32 @@ def test_purchasePlaces_no_places_specified(client):
     }
     response_no_places = client.post("/purchasePlaces", data=data)
     assert response_no_places.status_code == 403
+
+def test_purchasePlace_more_than_remaining(client):
+    """Test pour vérifier si un club peut booker un nombre de place > nombre de place restant"""
+    data = {
+        "competition": "Spring Festival",
+        "club": "Simply Lift",
+        "places": "0",
+    }
+    response_no_enough_places = client.post("/purchasePlaces", data=data)
+    assert response_no_enough_places.status_code == 403
+ 
+def test_purchasePlace_more_than_12_in_different_book(client):
+    """Test pour vérifier si un club peut booker un nombre de place > nombre de place restant"""
+    data1 = {
+        "competition": "Spring Festival",
+        "club": "Simply Lift",
+        "places": "9",
+    }
+    data2 = {
+        "competition": "Spring Festival",
+        "club": "Simply Lift",
+        "places": "4",
+    }
+    response_places = client.post("/purchasePlaces", data=data1)
+    response_too_much_places = client.post("/purchasePlaces", data=data2)
+    assert response_places.status_code == 200
+    assert response_too_much_places.status_code == 403
+
+

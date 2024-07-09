@@ -31,7 +31,6 @@ def client():
     reset_data()  # Ensure fresh data for each test
     return client
 
-
 @pytest.mark.integtest
 class FunctionalTest(TestCase):
     def create_app(self):
@@ -73,7 +72,6 @@ class FunctionalTest(TestCase):
         updated_club = next(c for c in updated_clubs if c['name'] == "Simply Lift")
         updated_point = int(updated_club["points"])
         assert updated_point == initial_point - 1
-
 
     def test_purchasePlaces_not_enough_points(self):
         data = {
