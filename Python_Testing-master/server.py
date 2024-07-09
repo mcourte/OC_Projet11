@@ -106,7 +106,7 @@ def pointsBoard():
     Display the points board.
     """
     club_list = sorted(clubs, key=lambda club: int(club["points"]), reverse=True)
-    return render_template("pointsBoard.html", clubs=club_list)
+    return render_template("points_board.html", clubs=club_list)
 
 
 @app.route('/logout')
