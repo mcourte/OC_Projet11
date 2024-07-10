@@ -12,6 +12,10 @@ def loadCompetitions():
         listOfCompetitions = json.load(comps)['competitions']
         return listOfCompetitions
 
+def get_future_competitions(competitions):
+    now = datetime.now()
+    return [comp for comp in competitions if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") > now]
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
@@ -26,10 +30,11 @@ def index():
 def show_summary():
     try:
         club = [club for club in clubs if club["email"] == request.form["email"]][0]
+        future_competitions = get_future_competitions(competitions)
         return render_template(
             "welcome.html",
             club=club,
-            competitions=competitions,
+            competitions=future_competitions,
         )
     except IndexError:
         if request.form["email"] == "":
@@ -46,19 +51,19 @@ def book(competition, club):
     except IndexError:
         flash("Un probleme est survenu, merci de reessayer")
         return (
-            render_template("welcome.html", club=club, competitions=competitions),
+            render_template("welcome.html", club=club, competitions=get_future_competitions(competitions)),
             400)
     if foundClub and foundCompetition:
         competition_date = datetime.strptime(foundCompetition["date"], "%Y-%m-%d %H:%M:%S")
         if competition_date < datetime.now():
             flash("Erreur : Vous ne pouvez pas vous inscrire a une competition deja passee")
-            return (render_template("welcome.html", club=foundClub, competitions=competitions),
+            return (render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)),
                     200)
         return render_template("booking.html", club=foundClub, competition=foundCompetition)
     else:
         flash("Un probleme est survenu, merci de reessayer")
         return (
-            render_template("welcome.html", club=foundClub, competitions=competitions, clubs=clubs),
+            render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)),
             400)
 
 @app.route('/purchasePlaces', methods=['POST'])
@@ -111,7 +116,7 @@ def purchasePlaces():
         json.dump({"competitions": competitions}, f, indent=4)
 
     flash("Great - booking complete!")
-    return render_template("welcome.html", club=club, competitions=competitions), 200
+    return render_template("welcome.html", club=club, competitions=get_future_competitions(competitions)), 200
 
 @app.route("/pointsBoard")
 def pointsBoard():
