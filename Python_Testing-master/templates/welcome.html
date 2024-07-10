@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Welcome
+    Choix de compétition
 {% endblock %}
 
 {% block content %}
-<h2>Bienvenue, {{ club['name'] }} </h2>
 <a href="{{ url_for('logout') }}">Déconnexion</a>
+
+
+<h1>Choix de la compétition à réserver</h1>
+
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -17,14 +20,17 @@
         </ul>
     {% endif %}
 {% endwith %}
-<p>Points disponibles: {{ club['points'] }}</p>
+<p><strong>Bienvenue : {{ club['name'] }} </strong></p>
+<p><strong>Points disponibles:</strong> {{ club['points'] }}</p>
 <h3>Compétitions:</h3>
 <ul>
     {% for comp in competitions %}
         <li>
-            {{ comp['name'] }}<br />
-            Date: {{ comp['date'] }}<br />
-            Number of Places: {{ comp['numberOfPlaces'] }}
+            <strong>Nom de la compétition : </strong>{{ comp['name'] }}<br />
+            <strong>Date :</strong> {{ comp['date'] }}<br />
+            <strong>Nombre de places disponibles :</strong> {{ comp['numberOfPlaces'] }}
+        </li>
+        <li>
             {% if comp['numberOfPlaces']|int > 0 %}
                 <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Réserver des places</a>
             {% endif %}
@@ -32,4 +38,7 @@
         <hr />
     {% endfor %}
 </ul>
+<h3>
+    <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
+</h3>
 {% endblock %}

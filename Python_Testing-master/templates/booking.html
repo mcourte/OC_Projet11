@@ -1,21 +1,34 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Réservation pour {% if competition %} {{ competition['name'] }} {% else %} GUDLFT {% endif %} 
+    Réservation pour{{ competition['name'] }}
 {% endblock %}
 
 {% block content %}
 {% if competition %}
-    <h2>Réservation pour : {{ competition['name'] }}</h2>
-    <p>Club: {{ club['name'] }}</p>
-    <p>Nombre de places disponibles: {{ competition['numberOfPlaces'] }}</p>
+    <h1>Réservation pour : {{ competition['name'] }}</h1>
+    <p>Club: <strong>{{ club['name'] }}</strong></p>
+    <p>Nombre de points que vous avez: <strong>{{ club['points'] }}</strong></p>
+    <p>Nombre de places disponibles:<strong> {{ competition['numberOfPlaces'] }}</strong></p>
 
     <form method="post" action="{{ url_for('purchasePlaces') }}">
         <input type="hidden" name="competition" value="{{ competition['name'] }}">
         <input type="hidden" name="club" value="{{ club['name'] }}">
         <label for="places">Places:</label>
         <input type="number" id="places" name="places">
-        <input type="submit">Réserver des places</input>
+        <button type="submit">Réserver des places</button>
     </form>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <ul style="list-style-type: none">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif%}
+  {% endwith %}
 {% endif %}
+<h3>
+    <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
+</h3>
 {% endblock %}

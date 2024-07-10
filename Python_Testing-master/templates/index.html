@@ -1,19 +1,29 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Index
+    Connexion
 {% endblock %}
 
 {% block content %}
-<h1>Bienvenue sur le portail d'inscription de GUDLFT</h1>
-<p>Merci d'entrer le mail associé à votre club:</p>
-<form action="{{ url_for('show_summary') }}" method="post">
-    <label for="email">Adresse mail:</label>
-    <input type="email" name="email" id="email"/>
-    <input type="submit">Connexion</input>
-</form>
+    <h1>BIENVENUE SUR LE PORTAIL D'INSCRIPTION DE GUDLFT</h1>
+    <h2>Merci d'entrer le mail associé à votre club:</h2>
+    <form action="{{ url_for('show_summary') }}" method="post">
+        <label for="email">Adresse mail:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Connexion</button>
+    </form>
 
-<p>
-    <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
-</p>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <ul style="list-style-type: none">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h3>
+        <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
+    </h3>
 {% endblock %}
