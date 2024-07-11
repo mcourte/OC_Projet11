@@ -1,17 +1,44 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking for {{competition['name']}} || GUDLFT</title>
-</head>
-<body>
-    <h2>{{competition['name']}}</h2>
-    Places available: {{competition['numberOfPlaces']}}
-    <form action="/purchasePlaces" method="post">
-        <input type="hidden" name="club" value="{{club['name']}}">
-        <input type="hidden" name="competition" value="{{competition['name']}}">
-        <label for="places">How many places?</label><input type="number" name="places" id=""/>
-        <button type="submit">Book</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+    Réservation pour {{ competition['name'] }}
+{% endblock %}
+
+{% block content %}
+<header class="header" role="banner">
+  <div class="navbar">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+      <nav>
+          <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+          <a href="{{ url_for('logout') }}">Déconnexion</a>
+      </nav>
+  </div>
+</header>
+{% if competition %}
+    <h1>Réservation pour : {{ competition['name'] }}</h1>
+    <p>Club: <strong>{{ club['name'] }}</strong></p>
+    <p>Nombre de points que vous avez: <strong>{{ club['points'] }}</strong></p>
+    <p>Nombre de places disponibles: <strong>{{ competition['numberOfPlaces'] }}</strong></p>
+
+    <p>Nombre de places que vous avez déjà réservées
+      <strong>{{ competition['club_booking'].get(club['name'], 0) if 'club_booking' in competition else 0 }}</strong>
+    </p>
+
+    <form method="post" action="{{ url_for('purchasePlaces') }}">
+      <input type="hidden" name="competition" value="{{ competition['name'] }}">
+      <input type="hidden" name="club" value="{{ club['name'] }}">
+      <input type="number" id="places" name="places" min="1">
+      <button type="submit">Réserver des places</button>
+  </form>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <ul style="list-style-type: none">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+{% endif %}
+{% endblock %}

@@ -182,6 +182,12 @@ def test_purchasePlaces_no_places_specified(client):
     assert response_no_places.status_code == 403
 
 
+def test_index_page_contains_points_board_link(client):
+    """Test to check if the index page contains a link to the points board page"""
+    response = client.get("/")
+    assert response.status_code == 200
+    assert b'Voir le tableau des points' in response.data
+
 def test_display_points(client):
     """Test to check if the points display page is shown correctly"""
     response = client.get("/pointsBoard")

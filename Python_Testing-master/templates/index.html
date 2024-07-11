@@ -1,16 +1,32 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GUDLFT Registration</title>
-</head>
-<body>
-    <h1>Welcome to the GUDLFT Registration Portal!</h1>
-    Please enter your secretary email to continue:
-    <form action="showSummary" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id=""/>
-        <button type="submit">Enter</button>
+{% extends "base.html" %}
+
+{% block title %}
+    Connexion
+{% endblock %}
+
+{% block content %}
+<header class="header" role="banner">
+  <div class="navbar">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+      <nav>
+          <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+      </nav>
+  </div>
+</header>
+    <h1>BIENVENUE SUR LE PORTAIL D'INSCRIPTION DE GUDLFT</h1>
+    <form action="{{ url_for('show_summary') }}" method="post">
+        <label for="email">Merci d'entrer le mail associé à votre club:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Connexion</button>
     </form>
-</body>
-</html>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <ul style="list-style-type: none">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+{% endblock %}

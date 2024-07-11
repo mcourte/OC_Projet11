@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 150px 0 0 0; /* Add top padding to avoid content being hidden under the header */
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: black;
+    margin: 20px 50px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 470;
+    color: black;
+    margin: 20px 0;
+}
+
+h3 {
+    text-align: center;
+    font-size: 18.5px;
+    font-weight: 400;
+    color: black;
+    margin: 20px 0;
+}
+
+
+p {
+    text-align: center;
+    color: black;
+    margin-bottom: 15px;
+}
+
+form {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: 300;
+    color: black;
+    margin: 20px 0;
+}
+
+
+input[type="email"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    background-color: #5d5d5d;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #5d5d5d;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #353535;
+}
+
+a {
+    color: #353535;;
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+a:hover {
+    font-weight: 900;
+}
+
+ul {
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    font-weight: 600;
+    color : red
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.error {
+    color: red;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #929191;
+    color: #fff;
+}
+
+th:first-child, td:first-child {
+    border-right: 1px solid #ccc;
+}
+
+tr:nth-child(odd) td {
+    background-color: #f2f2f2;
+}
+
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ccc;
+    color: #000;
+    padding: 10px;
+    z-index: 1000; /* Assurez-vous que le header est au-dessus de tout le contenu */
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center; /* Centrer verticalement les éléments */
+  }
+  
+  .logo {
+    margin-left: 20px; /* Marge à droite du logo */
+    width: 50px; /* Largeur de l'image */
+    height: auto; /* Hauteur ajustée automatiquement pour conserver les proportions */
+  }
+  
+  nav {
+    margin-left: auto; /* Place le nav à droite */
+    padding-right: 20px;
+  }
+
+  
+  nav a {
+    color: black; /* Couleur du texte des liens */
+    text-decoration: none; /* Supprime le soulignement des liens */
+    margin: 0 10px; /* Marge entre les liens */
+    text-align: center;
+    font-size: 18px;
+    font-weight: 450;
+    display:inline-block;
+    margin: 10px  10px 10px 10px; 
+  }

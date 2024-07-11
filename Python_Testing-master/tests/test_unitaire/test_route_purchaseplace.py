@@ -134,8 +134,7 @@ def test_purchasePlace_more_than_12_in_different_book(client):
         "places": "4",
     }
     response_places = client.post("/purchasePlaces", data=data1)
-    response_too_much_places = client.post("/purchasePlaces", data=data2)
     assert response_places.status_code == 200
+    
+    response_too_much_places = client.post("/purchasePlaces", data=data2)
     assert response_too_much_places.status_code == 403
-
-
