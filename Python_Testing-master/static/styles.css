@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 150px 0 0 0; /* Add top padding to avoid content being hidden under the header */
     background-color: #f0f0f0;
 }
 
@@ -55,7 +55,7 @@ input[type="email"] {
 }
 
 input[type="submit"] {
-    background-color: #e65f5f;
+    background-color: #5d5d5d;
     border: none;
     color: white;
     padding: 12px 20px;
@@ -69,7 +69,7 @@ input[type="submit"] {
 }
 
 button {
-    background-color: #e69e5f;
+    background-color: #5d5d5d;
     border: none;
     color: white;
     padding: 12px 20px;
@@ -83,17 +83,17 @@ button {
 }
 
 input[type="submit"]:hover {
-    background-color: #d64949;
+    background-color: #353535;
 }
 
 a {
-    color: #fa7070;
-    text-decoration: none;
+    color: #353535;;
+    text-decoration: underline;
     font-weight: 700;
 }
 
 a:hover {
-    text-decoration: underline;
+    font-weight: 900;
 }
 
 ul {
@@ -131,3 +131,47 @@ th {
 th:first-child, td:first-child {
     border-right: 1px solid #ccc;
 }
+
+tr:nth-child(odd) td {
+    background-color: #f2f2f2;
+}
+
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ccc;
+    color: #000;
+    padding: 10px;
+    z-index: 1000; /* Assurez-vous que le header est au-dessus de tout le contenu */
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center; /* Centrer verticalement les éléments */
+  }
+  
+  .logo {
+    margin-left: 20px; /* Marge à droite du logo */
+    width: 50px; /* Largeur de l'image */
+    height: auto; /* Hauteur ajustée automatiquement pour conserver les proportions */
+  }
+  
+  nav {
+    margin-left: auto; /* Place le nav à droite */
+    padding-right: 20px;
+  }
+
+  
+  nav a {
+    color: black; /* Couleur du texte des liens */
+    text-decoration: none; /* Supprime le soulignement des liens */
+    margin: 0 10px; /* Marge entre les liens */
+    text-align: center;
+    font-size: 18px;
+    font-weight: 300;
+    display:inline-block;
+    margin: 10px  10px 10px 10px; 
+  }

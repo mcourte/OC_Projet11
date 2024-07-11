@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block content %}
-<h3>
-    <a href="{{ url_for('index') }}">Retour à la page de connexion</a>
-</h3>
+<header class="header" role="banner">
+    <div class="navbar">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+        <nav>
+            {% if user.is_authenticated %}
+            <a href="{{ url_for('welcome') }}">Connexion</a>
+            {% endif %}
+            <a href="{{ url_for('index') }}">Connexion</a>
+            <a href="{{ url_for('logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+  </header>
 <h1>Points Board</h1>
 <table>
     <thead>

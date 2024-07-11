@@ -5,6 +5,15 @@
 {% endblock %}
 
 {% block content %}
+<header class="header" role="banner">
+  <div class="navbar">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+      <nav>
+          <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+          <a href="{{ url_for('logout') }}">Déconnexion</a>
+      </nav>
+  </div>
+</header>
 {% if competition %}
     <h1>Réservation pour : {{ competition['name'] }}</h1>
     <p>Club: <strong>{{ club['name'] }}</strong></p>
@@ -28,7 +37,4 @@
     {% endif%}
   {% endwith %}
 {% endif %}
-<h3>
-    <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
-</h3>
 {% endblock %}
