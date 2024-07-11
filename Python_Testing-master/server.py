@@ -73,7 +73,7 @@ def purchasePlaces():
     placesRemaining = int(competition["numberOfPlaces"])
     placesRequired = int(request.form["places"])
 
-    # Initialize or retrieve the total places reserved for this club
+
     if 'totalPlacesReserved' not in session:
         session['totalPlacesReserved'] = {}
     totalPlacesReserved = session['totalPlacesReserved'].get(club['name'], 0)
@@ -99,17 +99,18 @@ def purchasePlaces():
         return render_template("booking.html", club=club, competition=competition), 403
 
     if totalPlacesReserved + placesRequired > 12:
+        #rajouter nombre déjà inscrit avant
         flash("Erreur : Vous ne pouvez pas inscrire plus de 12 athletes à une compétition au total.")
         return render_template("booking.html", club=club, competition=competition), 403
     
-    # Deduct points and update remaining places
+ 
     club['points'] = int(club['points']) - placesRequired
     competition['numberOfPlaces'] = placesRemaining - placesRequired
 
-    # Update the total places reserved
+
     session['totalPlacesReserved'][club['name']] = totalPlacesReserved + placesRequired
 
-    # Save changes to JSON files
+
     with open("clubs.json", "w") as f:
         json.dump({"clubs": clubs}, f, indent=4)
     with open("competitions.json", "w") as f:
