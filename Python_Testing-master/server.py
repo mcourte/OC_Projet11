@@ -148,7 +148,6 @@ def pointsBoard():
     club_list = sorted(clubs, key=lambda club: int(club["points"]), reverse=True)
     return render_template("points_board.html", clubs=club_list)
 
-    return render_template("points_board.html", clubs=club_list)
 
 @app.route('/logout')
 def logout():
@@ -157,4 +156,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
