@@ -5,10 +5,17 @@
 {% endblock %}
 
 {% block content %}
+<header class="header" role="banner">
+  <div class="navbar">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+      <nav>
+          <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+      </nav>
+  </div>
+</header>
     <h1>BIENVENUE SUR LE PORTAIL D'INSCRIPTION DE GUDLFT</h1>
-    <h2>Merci d'entrer le mail associé à votre club:</h2>
     <form action="{{ url_for('show_summary') }}" method="post">
-        <label for="email">Adresse mail:</label>
+        <label for="email">Merci d'entrer le mail associé à votre club:</label>
         <input type="email" name="email" id="email" required>
         <button type="submit">Connexion</button>
     </form>
@@ -22,8 +29,4 @@
         </ul>
       {% endif %}
     {% endwith %}
-
-    <h3>
-        <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
-    </h3>
 {% endblock %}

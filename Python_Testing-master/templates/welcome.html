@@ -5,11 +5,16 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('logout') }}">Déconnexion</a>
-
-
+<header class="header" role="banner">
+    <div class="navbar">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+        <nav>
+            <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+            <a href="{{ url_for('logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+</header>
 <h1>Choix de la compétition à réserver</h1>
-
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -20,25 +25,50 @@
         </ul>
     {% endif %}
 {% endwith %}
-<p><strong>Bienvenue : {{ club['name'] }} </strong></p>
-<p><strong>Points disponibles:</strong> {{ club['points'] }}</p>
-<h3>Compétitions:</h3>
-<ul>
-    {% for comp in competitions %}
-        <li>
-            <strong>Nom de la compétition : </strong>{{ comp['name'] }}<br />
-            <strong>Date :</strong> {{ comp['date'] }}<br />
-            <strong>Nombre de places disponibles :</strong> {{ comp['numberOfPlaces'] }}
-        </li>
-        <li>
-            {% if comp['numberOfPlaces']|int > 0 %}
-                <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Réserver des places</a>
-            {% endif %}
-        </li>
-        <hr />
-    {% endfor %}
-</ul>
-<h3>
-    <a href="{{ url_for('pointsBoard') }}">Voir le tableau des points</a>
-</h3>
+
+<p>Bienvenue {{ club['name'] }} !</p>
+<p>Points disponibles:<strong> {{ club['points'] }}</strong></p>
+<h3>Compétitions à venir:</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Compétition</th>
+            <th>Date</th>
+            <th>Nombre de places disponibles</th>
+            <th>Réserver des places</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comp in future_competitions %}
+            <tr>
+                <td>{{ comp['name'] }}</td>
+                <td>{{ comp['date'] }}</td>
+                <td>{{ comp['numberOfPlaces'] }}</td>
+                <td>
+                    {% if comp['numberOfPlaces']|int > 0 %}
+                        <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Réserver</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Compétitions passées:</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Compétition</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comp in past_competitions %}
+            <tr>
+                <td>{{ comp['name'] }}</td>
+                <td>{{ comp['date'] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

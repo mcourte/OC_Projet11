@@ -1,28 +1,26 @@
-{% extends "base.html" %}
-
-{% block title %}
-    Points Board || GUDLFT
-{% endblock %}
-
-{% block content %}
-<h3>
-    <a href="{{ url_for('index') }}">Retour à la page de connexion</a>
-</h3>
-<h1>Points Board</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Club</th>
-            <th>Points</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for club in clubs %}
-        <tr>
-            <td>{{ club['name'] }}</td>
-            <td>{{ club['points'] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Points Board || GUDLFT</title>
+</head>
+<body>
+    <h1>Points Board</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Club</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+                <tr>
+                    <td>{{ club.name }}</td>
+                    <td>{{ club.points }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
