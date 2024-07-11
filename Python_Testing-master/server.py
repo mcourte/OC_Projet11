@@ -130,7 +130,6 @@ def purchasePlaces():
     club_booking[club['name']] = PlacesReserved + placesRequired
     competition['club_booking'] = club_booking
 
-
     with open("clubs.json", "w") as f:
         json.dump({"clubs": clubs}, f, indent=4)
     with open("competitions.json", "w") as f:
