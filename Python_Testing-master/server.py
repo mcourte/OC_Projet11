@@ -3,23 +3,27 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from datetime import datetime
 
 
+# Charge la liste des clubs
 def loadClubs():
     with open('clubs.json') as c:
         listOfClubs = json.load(c)['clubs']
         return listOfClubs
 
 
+# Charge la liste des compétitions
 def loadCompetitions():
     with open('competitions.json') as comps:
         listOfCompetitions = json.load(comps)['competitions']
         return listOfCompetitions
 
 
+# Selectionne les compétitions à venir : date > date du jour
 def get_future_competitions(competitions):
     now = datetime.now()
     return [comp for comp in competitions if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") > now]
 
 
+# Selectionne les compétitions passées : date < date du jour
 def get_past_competitions(competitions):
     now = datetime.now()
     return [comp for comp in competitions if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") <= now]
@@ -95,7 +99,7 @@ def purchasePlaces():
     placesRemaining = int(competition["numberOfPlaces"])
     placesRequired = int(request.form["places"])
 
-    # Initialize or retrieve the total places reserved for this club
+    # Si pas de places déjà reservée par le club, initialise à 0
     if 'club_booking' not in competition:
         competition['club_booking'] = {}
 
@@ -122,15 +126,15 @@ def purchasePlaces():
         flash("Erreur : Vous ne pouvez pas réserver plus de 12 athlètes au total pour cette compétition.")
         return render_template("booking.html", club=club, competition=competition), 403
 
-    # Deduct points and update remaining places
+    # Déduit le nombre de points du club & les places restantes dans la compétition
     club['points'] = int(club['points']) - placesRequired
     competition['numberOfPlaces'] = placesRemaining - placesRequired
 
-    # Update the club_booking dictionary
+    # Met à jour le nombre de place déjà reservée par le club
     club_booking[club['name']] = PlacesReserved + placesRequired
     competition['club_booking'] = club_booking
 
-    # Save changes to JSON files
+    # Sauvegarde les nouvelles valeurs dans les JSON
     with open("clubs.json", "w") as f:
         json.dump({"clubs": clubs}, f, indent=4)
     with open("competitions.json", "w") as f:
