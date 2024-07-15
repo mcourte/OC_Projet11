@@ -140,7 +140,8 @@ def purchasePlaces():
         json.dump({"competitions": competitions}, f, indent=4)
 
     flash("Super! Réservation enregistrée")
-    return render_template("welcome.html", club=club, competitions=get_future_competitions(competitions)), 200
+    return (render_template("welcome.html", club=club,
+                            competitions=get_future_competitions(competitions)), 200)
 
 
 @app.route("/pointsBoard")
