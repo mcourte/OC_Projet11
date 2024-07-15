@@ -2,25 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Points Board || GUDLFT</title>
+    <title>{% block title %}GUDLFT{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <h1>Points Board</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Club</th>
-                <th>Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for club in clubs %}
-                <tr>
-                    <td>{{ club.name }}</td>
-                    <td>{{ club.points }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+<header class="header" role="banner">
+    <div class="navbar">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo de GUDLFT." class="logo">
+        <nav>
+            <a href="{{ url_for('index') }}">Connexion</a>
+        </nav>
+    </div>
+</header>
+<h1>Points Board</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Club</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for club in clubs %}
+        <tr>
+            <td>{{ club['name'] }}</td>
+            <td>{{ club['points'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
