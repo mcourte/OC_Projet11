@@ -83,8 +83,7 @@ def book(competition, club):
         flash("Un probleme est survenu, merci de reessayer")
         return (
             render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)),
-            render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)),
-            400)
+            )
 
 
 @app.route('/purchasePlaces', methods=['POST'])
