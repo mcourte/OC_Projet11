@@ -139,9 +139,16 @@ def purchasePlaces():
     with open("competitions.json", "w") as f:
         json.dump({"competitions": competitions}, f, indent=4)
 
+    future_competitions = get_future_competitions(competitions)
+    past_competitions = get_past_competitions(competitions)
+
     flash("Super! Réservation enregistrée")
-    return (render_template("welcome.html", club=club,
-                            competitions=get_future_competitions(competitions)), 200)
+    return render_template(
+            "welcome.html",
+            club=club,
+            future_competitions=future_competitions,
+            past_competitions=past_competitions,
+        )
 
 
 @app.route("/pointsBoard")
