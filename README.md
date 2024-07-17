@@ -71,3 +71,56 @@ Il existe trois clubs qui sont inscrits actuellement sur le site, pour vous conn
 - admin@irontemple.com
 
 - kate@shelifts.co.uk
+
+
+Nota : le nombre de points de chaque clubs, et le nombre de place disponible diminuent dans les JSON.  
+Si vous voulez remettre les données à jour, voici les données de bases :  
+
+```
+{
+    "clubs": [
+        {
+            "name": "Simply Lift",
+            "email": "john@simplylift.co",
+            "points": "12"
+        },
+        {
+            "name": "Iron Temple",
+            "email": "admin@irontemple.com",
+            "points": "4"
+        },
+        {
+            "name": "She Lifts",
+            "email": "kate@shelifts.co.uk",
+            "points": "25"
+        }
+    ]
+}
+```  
+
+```
+{
+    "competitions": [
+        {
+            "name": "Spring Festival",
+            "date": "2020-03-27 10:00:00",
+            "numberOfPlaces": "25"
+        },
+        {
+            "name": "Fall Classic",
+            "date": "2020-10-22 13:30:00",
+            "numberOfPlaces": "25"
+        },
+        {
+            "name": "JO",
+            "date": "2025-10-22 13:30:00",
+            "numberOfPlaces": "25"
+        },
+        {
+            "name": "CDM de Crossfit",
+            "date": "2024-10-26 13:30:00",
+            "numberOfPlaces": "24"
+        }
+    ]
+}
+```
