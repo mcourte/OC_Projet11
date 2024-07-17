@@ -13,10 +13,7 @@
         {
             "name": "JO",
             "date": "2025-10-22 13:30:00",
-            "numberOfPlaces": 14,
-            "club_booking": {
-                "Simply Lift": 11
-            }
+            "numberOfPlaces": "25"
         }
     ]
 }

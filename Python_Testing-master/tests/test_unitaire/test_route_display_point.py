@@ -12,6 +12,7 @@ sys.path.insert(0, parent_dir)
 # Import functions from server.py
 from server import loadClubs, app
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -20,6 +21,7 @@ def client():
 
     client = app.test_client()
     return client
+
 
 def test_purchasePlaces(client):
     """Test pour vérifier si un club peut booker des places dans une compétition existante"""
@@ -94,6 +96,7 @@ def test_purchasePlaces_too_many_places(client):
 
     # Test OK
 
+
 def test_purchasePlaces_no_places_specified(client):
     """Test pour vérifier si un club peut booker un nombre de place =0"""
     data = {
@@ -103,6 +106,7 @@ def test_purchasePlaces_no_places_specified(client):
     }
     response_no_places = client.post("/purchasePlaces", data=data)
     assert response_no_places.status_code == 403
+
 
 def test_display_points(client):
     """Test to check if the points display page is shown correctly"""

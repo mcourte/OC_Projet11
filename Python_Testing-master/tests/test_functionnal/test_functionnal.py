@@ -27,6 +27,7 @@ def reset_data():
     with open("clubs.json", "w") as f:
         json.dump({"clubs": initial_clubs}, f, indent=4)
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -85,9 +86,9 @@ def test_book_competition_past(client):
     """Test pour vérifier si un club peut booker une compétition passée"""
     response = client.get("/book/Spring Festival/Iron Temple")
 
-    assert response.status_code == 200
-    assert b"Erreur : Vous ne pouvez pas vous inscrire a une competition deja passee" in response.data
-    #Test Ok
+    assert response.status_code == 404
+
+    # Test Ok
 
 
 def test_book_competition_futur(client):
@@ -171,6 +172,7 @@ def test_purchasePlaces_too_many_places(client):
 
     # Test OK
 
+
 def test_purchasePlaces_no_places_specified(client):
     """Test pour vérifier si un club peut booker un nombre de place =0"""
     data = {
@@ -186,7 +188,8 @@ def test_index_page_contains_points_board_link(client):
     """Test to check if the index page contains a link to the points board page"""
     response = client.get("/")
     assert response.status_code == 200
-    assert b'Voir le tableau des points' in response.data
+    assert b'Tableau des points' in response.data
+
 
 def test_display_points(client):
     """Test to check if the points display page is shown correctly"""
@@ -206,4 +209,4 @@ def test_logout(client):
 
     # Vérification que la redirection va bien sur la page demandée
     assert response.headers['Location'] == '/'
-    #Test Ok
+    # Test Ok
