@@ -101,6 +101,7 @@ def test_purchasePlaces_too_many_places(client):
 
     # Test OK
 
+
 def test_purchasePlaces_no_places_specified(client):
     """Test pour vérifier si un club peut booker un nombre de place =0"""
     data = {
@@ -111,6 +112,7 @@ def test_purchasePlaces_no_places_specified(client):
     response_no_places = client.post("/purchasePlaces", data=data)
     assert response_no_places.status_code == 403
 
+
 def test_purchasePlace_more_than_remaining(client):
     """Test pour vérifier si un club peut booker un nombre de place > nombre de place restant"""
     data = {
@@ -120,7 +122,8 @@ def test_purchasePlace_more_than_remaining(client):
     }
     response_no_enough_places = client.post("/purchasePlaces", data=data)
     assert response_no_enough_places.status_code == 403
- 
+
+
 def test_purchasePlace_more_than_12_in_different_book(client):
     """Test pour vérifier si un club peut booker un nombre de place > nombre de place restant"""
     data1 = {
@@ -134,7 +137,6 @@ def test_purchasePlace_more_than_12_in_different_book(client):
         "places": "4",
     }
     response_places = client.post("/purchasePlaces", data=data1)
-    assert response_places.status_code == 200
-    
     response_too_much_places = client.post("/purchasePlaces", data=data2)
+    assert response_places.status_code == 200
     assert response_too_much_places.status_code == 403

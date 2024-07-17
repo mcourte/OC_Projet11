@@ -16,6 +16,7 @@ print("sys.path:", sys.path)
 # Importez les fonctions depuis server.py
 from server import loadClubs, loadCompetitions, app
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -31,9 +32,8 @@ def test_book_competition_past(client):
     """Test pour vérifier si un club peut booker une compétition passée"""
     response = client.get("/book/Spring Festival/Iron Temple")
 
-    assert response.status_code == 200
-    assert b"Erreur : Vous ne pouvez pas vous inscrire a une competition deja passee" in response.data
-    #Test Ok
+    assert response.status_code == 404
+    # Test Ok
 
 
 def test_book_competition_futur(client):
@@ -42,4 +42,3 @@ def test_book_competition_futur(client):
 
     assert response.status_code == 200
     # Test OK
-

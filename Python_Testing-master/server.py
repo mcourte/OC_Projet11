@@ -136,7 +136,13 @@ def purchasePlaces():
             json.dump({"competitions": competitions}, f, indent=4)
 
         flash("Super! Réservation enregistrée", "error")
-        return render_template("welcome.html", club=club, competitions=get_future_competitions(competitions)), 200
+        future_competitions = get_future_competitions(competitions)
+        past_competitions = get_past_competitions(competitions)
+        return render_template(
+            "welcome.html",
+            club=club,
+            future_competitions=future_competitions,
+            past_competitions=past_competitions)
     except Exception as e:
         flash(f"Erreur inattendue: {str(e)}", "error")
         return render_template("welcome.html", club=club, competitions=get_future_competitions(competitions)), 500

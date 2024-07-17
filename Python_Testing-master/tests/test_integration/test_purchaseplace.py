@@ -14,6 +14,7 @@ sys.path.insert(0, parent_dir)
 # Importing functions from server.py
 from server import loadClubs, loadCompetitions, app
 
+
 def reset_data():
     initial_competitions = loadCompetitions()
     initial_clubs = loadClubs()
@@ -23,6 +24,7 @@ def reset_data():
     with open("clubs.json", "w") as f:
         json.dump({"clubs": initial_clubs}, f, indent=4)
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -30,6 +32,7 @@ def client():
     client = app.test_client()
     reset_data()  # Ensure fresh data for each test
     return client
+
 
 @pytest.mark.integtest
 class FunctionalTest(TestCase):
@@ -76,7 +79,7 @@ class FunctionalTest(TestCase):
     def test_purchasePlaces_not_enough_points(self):
         data = {
             "competition": "Spring Festival",
-            "club": "She Lifts",
+            "club": "Iron Temple",
             "places": "12",
         }
         response = self.client.post("/purchasePlaces", data=data)
