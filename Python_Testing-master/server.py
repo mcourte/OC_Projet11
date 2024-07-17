@@ -46,7 +46,7 @@ def show_summary():
             flash("Veuillez entrer une adresse e-mail.", "error")
         else:
             flash("Il n'existe pas de compte rattache a cet e-mail.", "error")
-        return render_template("index.html"), 401
+        return (render_template("index.html"), 404)
     future_competitions = get_future_competitions(competitions)
     past_competitions = get_past_competitions(competitions)
     return render_template(
@@ -78,7 +78,7 @@ def book(competition, club):
     else:
         flash("Un probleme est survenu, merci de reessayer", "error")
         return (
-            render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)), 400)
+            render_template("welcome.html", club=foundClub, competitions=get_future_competitions(competitions)), 401)
 
 
 @app.route('/purchasePlaces', methods=['POST'])
@@ -102,8 +102,8 @@ def purchasePlaces():
         club_booking = competition['club_booking']
         PlacesReserved = club_booking.get(club['name'], 0)
 
-        if placesRequired <= 0:
-            flash("Erreur : Vous ne pouvez pas réserver un nombre d'athlètes négatif ou nul.", "error")
+        if placesRequired < 0:
+            flash("Erreur : Vous ne pouvez pas réserver un nombre d'athlètes négatif.", "error")
             return render_template("booking.html", club=club, competition=competition), 403
 
         if placesRequired > int(club['points']):
