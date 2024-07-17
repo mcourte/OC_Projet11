@@ -95,7 +95,7 @@ def purchasePlaces():
         placesRemaining = int(competition["numberOfPlaces"])
         placesRequired = int(request.form["places"])
 
-        # Initialize or retrieve the total places reserved for this club
+        # Si pas de places déjà reservée par le club, initialise à 0
         if 'club_booking' not in competition:
             competition['club_booking'] = {}
 
@@ -122,14 +122,15 @@ def purchasePlaces():
             flash("Erreur : Vous ne pouvez pas réserver plus de 12 athlètes au total pour cette compétition.", "error")
             return render_template("booking.html", club=club, competition=competition), 403
 
-        # Deduct points and update remaining places
+        # Déduit le nombre de points du club & les places restantes dans la compétition
         club['points'] = int(club['points']) - placesRequired
         competition['numberOfPlaces'] = placesRemaining - placesRequired
 
-        # Update the club_booking dictionary
+        # Met à jour le nombre de place déjà reservée par le club
         club_booking[club['name']] = PlacesReserved + placesRequired
         competition['club_booking'] = club_booking
 
+        # Sauvegarde les nouvelles valeurs dans les JSON
         with open("clubs.json", "w") as f:
             json.dump({"clubs": clubs}, f, indent=4)
         with open("competitions.json", "w") as f:
