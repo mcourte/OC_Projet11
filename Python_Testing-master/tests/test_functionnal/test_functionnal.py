@@ -86,8 +86,8 @@ def test_book_competition_past(client):
     """Test pour vérifier si un club peut booker une compétition passée"""
     response = client.get("/book/Spring Festival/Iron Temple")
 
-    assert response.status_code == 404
-
+    assert response.status_code == 200
+    assert b"Erreur" in response.data
     # Test Ok
 
 
@@ -149,7 +149,7 @@ def test_purchasePlaces_max_places_exceeded(client):
     data = {
         "competition": "Spring Festival",
         "club": "Iron Temple",
-        "places": "5",
+        "places": "10",
     }
     response = client.post("/purchasePlaces", data=data)
 

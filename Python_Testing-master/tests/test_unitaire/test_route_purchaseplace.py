@@ -117,8 +117,8 @@ def test_purchasePlace_more_than_remaining(client):
     """Test pour vérifier si un club peut booker un nombre de place > nombre de place restant"""
     data = {
         "competition": "Spring Festival",
-        "club": "Simply Lift",
-        "places": "0",
+        "club": "Iron Temple",
+        "places": "8",
     }
     response_no_enough_places = client.post("/purchasePlaces", data=data)
     assert response_no_enough_places.status_code == 403
@@ -138,5 +138,6 @@ def test_purchasePlace_more_than_12_in_different_book(client):
     }
     response_places = client.post("/purchasePlaces", data=data1)
     assert response_places.status_code == 200
+
     response_too_much_places = client.post("/purchasePlaces", data=data2)
     assert response_too_much_places.status_code == 403

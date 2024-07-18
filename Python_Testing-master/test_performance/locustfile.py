@@ -15,20 +15,20 @@ class BaseUserBehavior(TaskSet):
     @task
     def show_summary(self):
         self.client.post(
-            "/showSummary",
+            "showSummary",
             data={"email": "john@simplylift.co"},
         )
 
     @task
     def book_competition(self):
         self.client.get(
-            f"/book/JO/{self.club}",
+            f"book/JO/{self.club}",
         )
 
     @task
     def purchase_places(self):
         self.client.post(
-            "/purchasePlaces",
+            "purchasePlaces",
             data={
                 "places": 0,
                 "club": "Simply Lift",
@@ -39,7 +39,7 @@ class BaseUserBehavior(TaskSet):
     @task
     def points_board(self):
         self.client.get(
-            "/pointsBoard",
+            "pointsBoard",
         )
 
 
