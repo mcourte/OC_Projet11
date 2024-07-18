@@ -58,7 +58,7 @@ def show_summary():
             flash("Veuillez entrer une adresse e-mail.", "error")
         else:
             flash("Il n'existe pas de compte rattache a cet e-mail.", "error")
-        return (render_template("index.html"), 404)
+            return (render_template("index.html"), 404)
     future_competitions = get_future_competitions(competitions)
     past_competitions = get_past_competitions(competitions)
     return render_template(
@@ -104,16 +104,20 @@ def purchasePlaces():
     placesRemaining = int(competition["numberOfPlaces"])
     placesRequired = int(request.form["places"])
 
-        # Si pas de places déjà reservée par le club, initialise à 0
-        if 'club_booking' not in competition:
-            competition['club_booking'] = {}
+    # Si pas de places déjà reservée par le club, initialise à 0
+    if 'club_booking' not in competition:
+        competition['club_booking'] = {}
 
     club_booking = competition['club_booking']
     PlacesReserved = club_booking.get(club['name'], 0)
 
-        if placesRequired < 0:
-            flash("Erreur : Vous ne pouvez pas réserver un nombre d'athlètes négatif.", "error")
-            return render_template("booking.html", club=club, competition=competition), 403
+    if placesRequired == 0:
+        flash("Erreur : Vous ne pouvez pas réserver un nombre d'athlètes nul.", "error")
+        return render_template("booking.html", club=club, competition=competition), 403
+
+    if placesRequired < 0:
+        flash("Erreur : Vous ne pouvez pas réserver un nombre d'athlètes négatif.", "error")
+        return render_template("booking.html", club=club, competition=competition), 403
 
     if placesRequired > int(club['points']):
         flash("Erreur : Vous n'avez pas assez de points disponibles.")
