@@ -14,6 +14,11 @@
             "name": "JO",
             "date": "2025-10-22 13:30:00",
             "numberOfPlaces": "25"
+        },
+        {
+            "name": "CDM de Crossfit",
+            "date": "2024-10-26 13:30:00",
+            "numberOfPlaces": "24"
         }
     ]
 }
