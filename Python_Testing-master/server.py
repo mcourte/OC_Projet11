@@ -248,6 +248,7 @@ def pointsBoard():
 
 @app.route("/logout")
 def logout():
+    """Permet de se déconnecter"""
     return redirect(url_for("index"))
 
 
