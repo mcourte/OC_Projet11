@@ -46,11 +46,15 @@ clubs = loadClubs()
 
 @app.route("/")
 def index():
+    """Permet de se connecter ou d'afficher le Tableau des points"""
     return render_template("index.html")
 
 
-@app.route("/showSummary", methods=["POST"])
+@app.route("/showSummary", methods=["POST", "GET"])
 def show_summary():
+    """Permet de voir les compétitions & d'être redigérer vers la page de réservation"""
+    if request.method == "GET":
+        return redirect(url_for("index"))
     try:
         club = [
             club for club in clubs if club["email"] == request.form["email"]
@@ -73,6 +77,7 @@ def show_summary():
 
 @app.route("/book/<competition>/<club>")
 def book(competition, club):
+    """Permet de choisir le nombre de place que l'on veut réserver"""
     try:
         foundClub = [c for c in clubs if c["name"] == club][0]
         foundCompetition = [
@@ -119,8 +124,11 @@ def book(competition, club):
         )
 
 
-@app.route("/purchasePlaces", methods=["POST"])
+@app.route("/purchasePlaces", methods=["POST", "GET"])
 def purchasePlaces():
+    """Permet de valider le nombre de place que l'user veut réserver"""
+    if request.method == "GET":
+        return redirect(url_for("index"))
     competition = next(
         (c for c in competitions if c["name"] == request.form["competition"]),
         None,
