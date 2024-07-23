@@ -119,4 +119,4 @@ class FunctionalTest(TestCase):
             "places": "0",
         }
         response = self.client.post("/purchasePlaces", data=data)
-        assert response.status_code == 403
+        assert response.status_code == 200

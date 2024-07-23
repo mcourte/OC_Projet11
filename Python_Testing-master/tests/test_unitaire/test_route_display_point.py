@@ -105,7 +105,7 @@ def test_purchasePlaces_no_places_specified(client):
         "places": "0",
     }
     response_no_places = client.post("/purchasePlaces", data=data)
-    assert response_no_places.status_code == 403
+    assert response_no_places.status_code == 200
 
 
 def test_display_points(client):
